@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>釜山・慶州 秋日家庭賞楓之旅 2026 🍁</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            maple: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#9a3412',
+              900: '#7c2d12',
+            },
+            autumn: {
+              gold: '#EAB308',
+              leaf: '#DC2626',
+              pine: '#2D4A3E',
+              warmbg: '#FDFBF7',
+              cardbg: '#FFFFFF'
+            }
+          },
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #FAF6F0;
+      color: #332720;
+    }
+    .glass-nav {
+      background: rgba(253, 251, 247, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .autumn-gradient {
+      background: linear-gradient(135deg, #7C2D12 0%, #C2410C 50%, #B45309 100%);
+    }
+    .badge-tag {
+      transition: all 0.2s ease;
+    }
+    .badge-tag:hover {
+      transform: translateY(-1px);
+    }
+    /* Autumn falling leaves canvas overlay */
+    #leavesCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 40;
+    }
+  </style>
+</head>
+<body class="min-h-screen relative font-sans antialiased selection:bg-orange-200 selection:text-orange-900">
+
+  <!-- Fall foliage floating leaf effect canvas (Red Maple & Golden Ginkgo) -->
+  <canvas id="leavesCanvas"></canvas>
+
+  <header class="sticky top-0 z-50 glass-nav border-b border-orange-100 shadow-sm transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5">
+        <span class="text-2xl select-none">🍁</span>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-stone-900 leading-tight">
+            Busan & Gyeongju Trip
+          </h1>
+          <p class="text-xs text-stone-500 font-medium">2026.11.11 - 11.15・秋日家庭行</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <a href="#countdown-section" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-orange-100/80 text-orange-800 hover:bg-orange-200 transition">
+          ⏳ 倒數計時
+        </a>
+        <a href="#itinerary-section" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-amber-600 text-white hover:bg-amber-700 shadow-sm transition">
+          📅 完整行程
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-20 space-y-10">
+    
+    <!-- Hero Banner -->
+    <section class="relative rounded-3xl overflow-hidden shadow-xl autumn-gradient text-white p-6 sm:p-10 lg:p-12">
+      <!-- Background subtle overlay image from Busan/Autumn -->
+      <div class="absolute inset-0 opacity-25 mix-blend-overlay">
+        <img 
+          src="https://images.unsplash.com/photo-1548115184-bc6544d06a58?auto=format&fit=crop&w=1600&q=80" 
+          alt="Autumn in Korea" 
+          class="w-full h-full object-cover object-center"
+          loading="lazy"
+          onerror="this.src='https://placehold.co/1600x600/7c2d12/ffffff?text=Busan+Autumn+Trip'"
+        >
+      </div>
+
+      <div class="relative z-10 max-w-3xl">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/20 backdrop-blur-md text-orange-100 mb-3 tracking-wide">
+          🍂 滿山紅葉・海景散策・米其林美食・家庭同樂
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-3 font-serif">
+          釜山 & 慶州 5天4夜秋季旅行
+        </h2>
+        <p class="text-sm sm:text-base text-orange-100/90 leading-relaxed font-light mb-6">
+          從佛國寺與千年林滿園銀杏楓紅、海雲台絕美藍線天空膠囊列車，到西面與南浦洞道地美食，享受專屬家人的秋天溫暖時光！
+        </p>
+
+        <!-- Countdown Section (Days Only) & Flight / Hotel Info -->
+        <div id="countdown-section" class="bg-black/25 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/20 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between text-xs sm:text-sm font-medium text-orange-200 gap-1.5">
+            <span>✈️ 航班：桃園 15:40 (台灣時間) ➔ 釜山 18:50 (韓國時間)</span>
+            <span id="countdown-status" class="self-start sm:self-auto bg-orange-500/80 px-2.5 py-0.5 rounded text-[11px] font-bold text-white uppercase tracking-wider">
+              Countdown
+            </span>
+          </div>
+
+          <div class="flex items-center justify-center bg-white/10 rounded-2xl p-4 border border-white/15">
+            <div class="text-center">
+              <div class="flex items-baseline justify-center gap-2">
+                <span id="cd-days" class="text-4xl sm:text-6xl font-black font-mono text-amber-300 drop-shadow">00</span>
+                <span class="text-lg sm:text-xl font-bold text-orange-100">天 (Days)</span>
+              </div>
+              <p class="text-xs text-orange-200/90 mt-1">倒數秋日相聚釜山・金秋楓紅正美</p>
+            </div>
+          </div>
+
+          <!-- Hotel Card with Google Map Link -->
+          <div class="bg-white/15 hover:bg-white/20 transition rounded-xl p-3 border border-white/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div class="flex items-center gap-2.5">
+              <span class="text-2xl">🏨</span>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500 text-stone-900 font-extrabold">本次入住飯店</span>
+                  <span class="text-sm font-bold text-white">Felix by STX Hotel & Suite</span>
+                </div>
+                <p class="text-xs text-orange-100/80">펠릭스바이STX・海雲台站 7 號出口直通・生活機能極佳的高樓景觀公寓式酒店</p>
+              </div>
+            </div>
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=Felix+by+STX+Hotel+and+Suite+Busan" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="shrink-0 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-stone-900 shadow-sm transition"
+            >
+              <span>📍 查看飯店地圖</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Itinerary Section -->
+    <section id="itinerary-section" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 pb-4">
+        <div>
+          <h3 class="text-2xl font-bold text-stone-900 tracking-tight flex items-center gap-2">
+            <span>📅</span> 詳細行程計畫與地圖
+          </h3>
+          <p class="text-xs sm:text-sm text-stone-500 mt-1">點擊地標直接開啟 Google Maps 導航與詳細資訊</p>
+        </div>
+
+        <!-- Day Filter Tabs (Consistent Naming) -->
+        <div class="flex flex-wrap gap-1.5 p-1 bg-stone-200/70 rounded-xl text-xs font-semibold" id="day-tabs">
+          <button onclick="filterDay('all')" class="tab-btn active-tab px-3 py-1.5 rounded-lg transition" data-day="all">全部 (All)</button>
+          <button onclick="filterDay(1)" class="tab-btn px-3 py-1.5 rounded-lg transition" data-day="1">D1 抵達釜山</button>
+          <button onclick="filterDay(2)" class="tab-btn px-3 py-1.5 rounded-lg transition" data-day="2">D2 慶州包車</button>
+          <button onclick="filterDay(3)" class="tab-btn px-3 py-1.5 rounded-lg transition" data-day="3">D3 梵魚寺/市區</button>
+          <button onclick="filterDay(4)" class="tab-btn px-3 py-1.5 rounded-lg transition" data-day="4">D4 膠囊列車/醫美</button>
+          <button onclick="filterDay(5)" class="tab-btn px-3 py-1.5 rounded-lg transition" data-day="5">D5 返程</button>
+        </div>
+      </div>
+
+      <div id="itinerary-container" class="space-y-8">
+        <!-- Rendered via JavaScript for clean user updates -->
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+      <!-- Packing / Preparation -->
+      <div class="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4">
+        <h4 class="text-lg font-bold text-stone-900 flex items-center gap-2">
+          <span>🍂</span> 11月釜山秋季旅行小撇步
+        </h4>
+        <ul class="text-xs sm:text-sm text-stone-600 space-y-2.5 leading-relaxed">
+          <li class="flex items-start gap-2">
+            <span class="text-amber-600 font-bold">●</span>
+            <span><strong>氣溫與穿著：</strong> 11月中旬釜山白天約 12-16°C，慶州早晚偏冷 (約 5-8°C)。建議洋蔥式穿法、防風保暖外套與圍巾。</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-amber-600 font-bold">●</span>
+            <span><strong>廣安大橋夜景：</strong> 11月中旬約 17:20 日落，大橋於入夜後亮起璀璨燈飾，整點時有音樂燈光雷射秀，漫步沙灘視野極美。</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-amber-600 font-bold">●</span>
+            <span><strong>票券注意：</strong> 海雲台藍線公園膠囊列車通常提早2週~1個月開放預約，建議開放時搶訂上午時段（尾浦 Mipo 出發靠海側視野最佳）。</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Quick Helpful Korean Phrases & Map Info -->
+      <div class="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4">
+        <h4 class="text-lg font-bold text-stone-900 flex items-center gap-2">
+          <span>🇰🇷</span> 實用韓文與點餐便利備忘
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
+            <p class="font-bold text-stone-800">請給我菜單</p>
+            <p class="text-stone-500">메뉴판 주세요 (Menupan juseyo)</p>
+          </div>
+          <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
+            <p class="font-bold text-stone-800">我要外帶</p>
+            <p class="text-stone-500">포장해 주세요 (Pojang-hae juseyo)</p>
+          </div>
+          <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
+            <p class="font-bold text-stone-800">這多少錢？</p>
+            <p class="text-stone-500">얼마예요? (Eolmayeyo?)</p>
+          </div>
+          <div class="p-2.5 rounded-xl bg-stone-50 border border-stone-100">
+            <p class="font-bold text-stone-800">謝謝</p>
+            <p class="text-stone-500">감사합니다 (Gamsahamnida)</p>
+          </div>
+        </div>
+        <p class="text-[11px] text-stone-400">
+          * 韓國當地建議搭配 Naver Map 或 KakaoMap app 輔助查詢公車與即時營業狀態。
+        </p>
+      </div>
+    </section>
+
+    <div class="bg-orange-50 border border-orange-200 rounded-2xl p-4 text-stone-700 text-xs flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="text-xl">💡</span>
+        <span>
+          <strong>行程日後修改方式：</strong> 本頁面代碼下方含有清楚標示的 <code>TRIP_CONFIG</code> 資料物件，你可以直接更換時間、地點名稱、備註或預約狀態！
+        </span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-stone-200 bg-stone-100/80 py-8 text-center text-xs text-stone-500">
+    <p class="mb-1 font-medium text-stone-700">Wishing our family an unforgettable Autumn Trip to Busan & Gyeongju! 🍁</p>
+    <p>Safe Travels • 2026.11.11 - 2026.11.15</p>
+  </footer>
+
+  <script>
+    /**
+     * =========================================================================
+     * 旅遊行程設定資料 (TRIP_CONFIG)
+     * 之後如有任何行程更新、時間異動或預約完成，只需直接在此修改對應項目！
+     * =========================================================================
+     */
+    const TRIP_CONFIG = {
+      // 倒數目標時間 (2026年11月11日 18:50 抵達釜山金海機場)
+      departureDate: "2026-11-11T18:50:00+09:00",
+      
+      days: [
+        {
+          dayNumber: 1,
+          dateDisplay: "2026/11/11 (Wed)",
+          theme: "啟程飛往釜山・入住海雲台 Felix by STX・夜景與晚餐宵夜",
+          themeKo: "타이베이 출발 & 부산 도착 & 펠릭스바이STX 체크인 & 광안리 야경",
+          // 廣安大橋真實夜景圖
+          heroImage: "https://commons.wikimedia.org/wiki/Special:FilePath/Gwangan_Bridge,_Busan,_lighted_up_in_purple_for_BTS,_June_2019.jpg?width=1200",
+          imageAlt: "Gwangan Bridge Busan Night View",
+          events: [
+            {
+              time: "15:40 (台灣時間)",
+              title: "台灣桃園國際機場 (TPE) 啟程起飛",
+              koreanName: "타이완 타오위안 국제공항 출발 (TPE)",
+              type: "transport",
+              tag: "班機出發",
+              tagColor: "bg-blue-100 text-blue-800",
+              notes: "建議於出發前 2.5 小時 (約 13:10) 抵達桃園機場辦理登機報到與行李託運手續。航程約 2 小時 10 分鐘（韓國時區快台灣 1 小時）。",
+              mapQuery: "Taiwan Taoyuan International Airport"
+            },
+            {
+              time: "18:50 (韓國時間)",
+              title: "抵達釜山金海國際機場 (PUS)",
+              koreanName: "김해국제공항 도착 (PUS)",
+              type: "transport",
+              tag: "抵達釜山",
+              tagColor: "bg-emerald-100 text-emerald-800",
+              notes: "順利降落釜山！辦理入境通關手續、提領行李，搭乘預約包車或計程車前往海雲台市區飯店。",
+              mapQuery: "Gimhae International Airport, Busan"
+            },
+            {
+              time: "20:00",
+              title: "入住：Felix by STX Hotel & Suite",
+              koreanName: "펠릭스바이STX 호텔앤스위트",
+              type: "hotel",
+              tag: "飯店入住",
+              tagColor: "bg-emerald-100 text-emerald-800",
+              notes: "海雲台站 7 號出口直通，交通機能絕佳。寬敞公寓式房型設有客廳與簡易廚房，非常適合家庭旅客舒適放鬆行李。",
+              mapQuery: "Felix by STX Hotel and Suite, Busan"
+            },
+            {
+              time: "20:45+",
+              title: "廣安里 / 海雲台 晚餐與宵夜散策",
+              koreanName: "광안리해수욕장 / 해운대",
+              type: "food",
+              tag: "美食夜景",
+              tagColor: "bg-amber-100 text-amber-800",
+              notes: "眺望遠方閃耀的廣安大橋夜色或於海雲台大街漫步，品嚐熱騰騰的韓式炸雞、海鮮煎餅或道地宵夜布帳馬車，開啟秋季溫馨旅程。",
+              mapQuery: "Gwangalli Beach, Busan"
+            }
+          ]
+        },
+        {
+          dayNumber: 2,
+          dateDisplay: "2026/11/12 (Thu)",
+          theme: "慶州新羅千年古都歷史巡禮・廣安里落日點燈與 Gogyeol 烤肉",
+          themeKo: "경주 역사 단풍 투어 & 광안리 일몰·점등 & 고결 저녁",
+          heroImage: "https://images.unsplash.com/photo-1548115184-bc6544d06a58?auto=format&fit=crop&w=1200&q=80",
+          imageAlt: "Bulguksa Temple Foliage Gyeongju",
+          events: [
+            {
+              time: "08:00",
+              title: "Felix by STX 飯店出發 (包車出發)",
+              koreanName: "호텔 출발 (경주행)",
+              type: "transport",
+              tag: "包車出發",
+              tagColor: "bg-stone-100 text-stone-800",
+              notes: "包車司機準時至飯店大廳迎接，直奔千年古都慶州避開上午車潮。",
+              mapQuery: "Felix by STX Hotel and Suite, Busan"
+            },
+            {
+              time: "09:15 - 10:15",
+              title: "佛國寺 (Bulguksa) 賞楓散策",
+              koreanName: "불국사 (Bulguksa) - UNESCO 세계문화유산",
+              type: "spot",
+              tag: "世界文化遺產・歷史名勝",
+              tagColor: "bg-red-100 text-red-800",
+              notes: "【新羅佛教美學巔峰】：建於新羅景德王時期（西元751年），為聯合國教科文組織世界文化遺產。寺內的「青雲橋」與「白雲橋」象徵從人間通往佛陀淨土，大雄殿前的「釋迦塔」（簡潔莊嚴）與「多寶塔」（精緻華麗）展現新羅高超石造工藝。秋季滿院楓紅映照著古樸石階與木構大殿，是慶州最具代表性的絕景。",
+              mapQuery: "Bulguksa, Gyeongju"
+            },
+            {
+              time: "10:25 - 10:55 (30分鐘)",
+              title: "慶北千年之林庭園 (看水杉與楓樹)",
+              koreanName: "경주 천년숲정원 (경상북도산림환경연구원)",
+              type: "spot",
+              tag: "秋日自然秘境",
+              tagColor: "bg-emerald-100 text-emerald-800",
+              notes: "停留約30分鐘。園區內著名的倒影木橋橫跨溪流，兩側高聳的水杉林在11月中旬換上焦糖赭紅色彩，與秋楓在水面相映成趣，悠閒漫步拍照非常愜意。",
+              mapQuery: "Gyeongbuk Forest Environment Research Institute, Gyeongju"
+            },
+            {
+              time: "11:10 - 12:10 (60分鐘)",
+              title: "午餐：Hobak Goeul 南瓜煙燻鴨肉飯",
+              koreanName: "호박고을 (Hobak Goeul)",
+              type: "food",
+              tag: "午餐推薦",
+              tagColor: "bg-amber-100 text-amber-800",
+              notes: "慶州著名養生特色餐！精選熟成南瓜包裹香氣四溢的煙燻鴨肉與多穀雜糧紫米蒸煮，鴨油與甘甜南瓜肉交融，溫和滋補無負擔，非常適合長輩與全家人一起享用。",
+              mapQuery: "호박고을 경주 (Hobak Goeul Gyeongju)"
+            },
+            {
+              time: "12:25 - 12:55 (30分鐘)",
+              title: "月精橋",
+              koreanName: "월정교 (Woljeonggyo)",
+              type: "spot",
+              tag: "新羅王宮木橋",
+              tagColor: "bg-orange-100 text-orange-800",
+              notes: "停留約30分鐘。【新羅王朝的宏偉門戶】：始建於新羅景德王19年（西元760年），橫跨南川連接新羅王宮月城與南山。相傳新羅高僧元曉大師在此與瑤石公主結下傳奇佛緣。如今考證重現雙層樓閣與華美木質迴廊，朱紅飛簷在秋日碧水倒影下分外雄偉壯觀。",
+              mapQuery: "Woljeonggyo Bridge, Gyeongju"
+            },
+            {
+              time: "13:00 - 13:35",
+              title: "慶州校村傳統村",
+              koreanName: "경주 교촌마을 (Gyochon Traditional Village)",
+              type: "spot",
+              tag: "新羅儒學與百年崔氏",
+              tagColor: "bg-stone-100 text-stone-800",
+              notes: "這裡是新羅神文王設置國學（朝鮮半島最早國立大學）的歷史聖地，也是朝鮮時代「慶州崔氏」傳承十二代四百年富貴的宗宅故居。崔氏家族恪守「方圓百里內不讓任何人挨餓」的濟世家訓，村落內韓屋林立，充滿純樸儒雅的文化氛圍。",
+              mapQuery: "Gyeongju Gyochon Traditional Village"
+            },
+            {
+              time: "13:40 - 14:15",
+              title: "大陵苑 (天馬塚與王陵園區)",
+              koreanName: "대릉원 (Daereungwon)",
+              type: "spot",
+              tag: "新羅千年生死美學",
+              tagColor: "bg-emerald-100 text-emerald-800",
+              notes: "匯聚新羅時代23座巨大覆斗狀積石木槨墳。其中「天馬塚」曾出土珍貴的新羅純金王冠與白樺樹皮天馬圖彩繪，展示了新羅「黃金之國」的璀璨文明。秋季園區綠草金芒，巨大陵丘與遠山楓樹構成靜謐莊嚴的和諧景致。",
+              mapQuery: "Daereungwon Tomb Complex, Gyeongju"
+            },
+            {
+              time: "14:20 - 15:20 (60分鐘)",
+              title: "皇理團路漫步 + 點心時間",
+              koreanName: "황리단길 (Hwangridan-gil)",
+              type: "food",
+              tag: "韓屋文青街區",
+              tagColor: "bg-purple-100 text-purple-800",
+              notes: "由傳統韓屋改建的文創潮流街區。推薦至【Bichkkuli 빛꾸리】古樸韓屋茶坊品嚐手工彩色油蜜果與熱柿子茶；亦可品嚐知名【巨松燉排骨 거송갈비찜】或熱騰騰的十元硬幣牽絲起司雞蛋糕！",
+              mapQuery: "Hwangridan-gil, Gyeongju"
+            },
+            {
+              time: "15:25 - 15:55",
+              title: "瞻星臺 & 東宮月池周邊漫步",
+              koreanName: "첨성대 & 동궁과 월지 (日間巡禮)",
+              type: "spot",
+              tag: "東亞最古老天文台",
+              tagColor: "bg-yellow-100 text-yellow-800",
+              notes: "【東亞現存最古老天文觀測台】：建於新羅善德女王時期（7世紀），由365塊花崗岩代表一年365日，窗戶上下各12層象徵12個月與24節氣。秋天周圍常有芒草與秋櫻盛開；漫步至東宮與月池周邊欣賞湖水倒影（不需等待夜間點燈，白天視野開闊清新）。",
+              mapQuery: "Cheomseongdae, Gyeongju"
+            },
+            {
+              time: "16:00",
+              title: "包車專車返回釜山 (16:00 啟程)",
+              koreanName: "부산 귀환 (출발)",
+              type: "transport",
+              tag: "專車回程",
+              tagColor: "bg-stone-100 text-stone-800",
+              notes: "16:00 準時由慶州發車，避開下班尖峰嚴重壅塞，從容返回釜山廣安里。",
+              mapQuery: "Gwangalli Beach, Busan"
+            },
+            {
+              time: "17:25 - 18:55",
+              title: "抵達廣安里：夕陽餘暉、廣安大橋與夜晚點燈時刻",
+              koreanName: "광안리 해변 도착 & 일몰 & 광안대교 점등 시간",
+              type: "spot",
+              tag: "絕美夕陽點燈",
+              tagColor: "bg-amber-500 text-white font-bold",
+              notes: "【廣安里的浪漫魔幻時刻】：11月中旬日落約在 17:15~17:30。抵達廣安里沙灘時，正好迎來由金黃轉為深邃紫藍的天色。廣安大橋在夜幕低垂時亮起壯麗的彩虹燈飾（點燈時間通常為日落後至午夜，整點更有搭配音樂的雷射媒體立面燈光秀！）。在沙灘邊或海景露台靜靜欣賞橋景倒映在海浪上的浪漫光影，格外療癒。",
+              mapQuery: "Gwangalli Beach, Busan"
+            },
+            {
+              time: "19:00 (已預約)",
+              title: "晚餐：Gogyeol 廣安里熟成烤肉",
+              koreanName: "고결 (Gogyeol) 광안리점",
+              type: "food",
+              tag: "★ 19:00 預約席",
+              tagColor: "bg-red-600 text-white font-bold",
+              notes: "廣安里頂級熟成豬肉專門店，專人代烤外脆內嫩，搭配精緻特色小菜與沾醬，慶祝慶州充實的一日遊！",
+              mapQuery: "고결 광안리 (Gogyeol Busan)"
+            },
+            {
+              time: "20:30+",
+              title: "廣安里海灘夜晚漫步 & 咖啡甜點時光",
+              koreanName: "광안리 해변 야간 산책 & 카페",
+              type: "spot",
+              tag: "夜間海濱漫步",
+              tagColor: "bg-purple-100 text-purple-800",
+              notes: "飽餐一頓後漫步在廣安里海灘細軟白沙與木棧道上，近距離感受涼爽秋風與廣安大橋璀璨的鑽石燈光，沿途常有熱情的街頭藝人吉他彈唱演出。亦可挑選一間面海景觀咖啡廳點杯熱飲，與家人享受最舒心的釜山夜晚。",
+              mapQuery: "Gwangalli Beach, Busan"
+            }
+          ]
+        },
+        {
+          dayNumber: 3,
+          dateDisplay: "2026/11/13 (Fri)",
+          theme: "金井山梵魚寺千年名剎、南浦市集、松島海岸與西面",
+          themeKo: "범어사 단풍 & 남포동 시장 & 서면",
+          heroImage: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=1200&q=80",
+          imageAlt: "Busan Coastal and Temple View",
+          events: [
+            {
+              time: "09:00 - 11:00",
+              title: "金井山 梵魚寺 (Beomeosa) 深度秋楓巡禮",
+              koreanName: "금정산 범어사 (Beomeosa)",
+              type: "spot",
+              tag: "嶺南三大名剎・歷史古剎",
+              tagColor: "bg-red-100 text-red-800",
+              notes: "【梵天金魚的千年傳奇】：梵魚寺由新羅高僧義湘大師於文武王18年（西元678年）奉旨創建，為韓國佛教華嚴十剎之一。相傳金井山頂有一巨石，石上有金色井水永不乾涸，梵天金魚自雲端乘五彩雲乘波而下嬉遊，因而得名「梵魚寺」。在壬辰倭亂（1592年）時，梵魚寺僧兵挺身抗擊倭寇衛國。寺院依山而建，其「一柱門（曹溪門）」以四根天然未琢石柱支撐三間木頂，列為韓國國寶級建築。秋季時，大雄殿與羅漢殿周圍的古楓如烈火燃燒，伴隨幽靜溪谷流水聲，被公認為釜山秋天第一勝景。",
+              mapQuery: "Beomeosa Temple, Busan"
+            },
+            {
+              time: "11:45 - 13:45",
+              title: "南浦洞市場小吃巡禮 (午餐)",
+              koreanName: "남포동 & 부평깡통시장 & BIFF거리",
+              type: "food",
+              tag: "道地市場小吃",
+              tagColor: "bg-amber-100 text-amber-800",
+              notes: "【富平罐頭市場】：必吃 밀곳 (Milgot) 招牌紅豆奶油艾草麻糬、辣炒年糕、魚糕；【BIFF廣場】：品嚐元祖堅果黑糖餅 (씨앗호떡)。",
+              mapQuery: "Bupyeong Kkangtong Market, Busan"
+            },
+            {
+              time: "14:00 - 15:00",
+              title: "松島海灘 & 天空步道",
+              koreanName: "송도해수욕장 (Songdo Beach)",
+              type: "spot",
+              tag: "浪漫海景",
+              tagColor: "bg-blue-100 text-blue-800",
+              notes: "漫步松島雲端散步路，眺望海上纜車與蔚藍海灣。",
+              mapQuery: "Songdo Beach, Busan"
+            },
+            {
+              time: "15:15 - 16:45",
+              title: "白淺灘文化村",
+              koreanName: "흰여울문화마을 (Huinnyeoul Culture Village)",
+              type: "spot",
+              tag: "沿海壁畫村",
+              tagColor: "bg-sky-100 text-sky-800",
+              notes: "釜山的聖托里尼！依山傍海的白色小徑與特色海景咖啡廳，海角隧道必拍。",
+              mapQuery: "Huinnyeoul Culture Village, Busan"
+            },
+            {
+              time: "17:00 - 17:45 (選配)",
+              title: "樂天超市 (光復店) 伴手禮採購",
+              koreanName: "롯데마트 광복점 (Lotte Mart Gwangbok)",
+              type: "shopping",
+              tag: "伴手禮推薦",
+              tagColor: "bg-stone-100 text-stone-800",
+              notes: "若想採買韓國零食、泡麵與海苔可在此快速選購。",
+              mapQuery: "Lotte Mart Gwangbok, Busan"
+            },
+            {
+              time: "18:00+",
+              title: "西面商圈購物與晚餐",
+              koreanName: "서면역 & 전포카페거리",
+              type: "food",
+              tag: "市中心購物美食",
+              tagColor: "bg-amber-100 text-amber-800",
+              notes: "早到可從田浦咖啡街 (전포) 漫步逛回西面地下街。晚餐美食名單：【機張手工刀切麵】(注意營業至 20:00)、【松亭3代豬肉湯飯】(24小時營業)、亦可外帶超人氣【李在模披薩 이재모피자】回飯店輕鬆享用！",
+              mapQuery: "Seomyeon, Busan"
+            }
+          ]
+        },
+        {
+          dayNumber: 4,
+          dateDisplay: "2026/11/14 (Sat)",
+          theme: "海雲台藍線天空膠囊列車、海東龍宮寺、美顏保養與新世界百貨",
+          themeKo: "해운대 스카이캡슐 & 해동용궁사 & 센텀시티",
+          // 海雲台藍線公園天空膠囊列車實景圖
+          heroImage: "https://commons.wikimedia.org/wiki/Special:FilePath/Sky_Capsule_train_at_Haeundae_Blueline_Park,_Busan.jpg?width=1200",
+          imageAlt: "Haeundae Blueline Park Sky Capsule Coastal Train",
+          events: [
+            {
+              time: "07:00",
+              title: "晨間暖胃：大海鮑魚粥早餐",
+              koreanName: "바다전복죽 (Bada Sea Abalone Porridge)",
+              type: "food",
+              tag: "養生早餐",
+              tagColor: "bg-amber-100 text-amber-800",
+              notes: "滿滿新鮮鮑魚切片與濃郁鮑魚內臟熬煮的綠色粥底，早晨吃暖胃又補氣。",
+              mapQuery: "바다전복죽 해운대 (Bada Abalone Porridge Busan)"
+            },
+            {
+              time: "09:00 - 10:30 (搶票時段)",
+              title: "海雲台藍線公園：天空膠囊列車",
+              koreanName: "해운대블루라인파크 스카이캡슐 (Mipo to Cheongsapo)",
+              type: "spot",
+              tag: "★ 預約上午時段",
+              tagColor: "bg-rose-600 text-white font-bold",
+              notes: "繽紛的四人座彩色車廂行駛於海岸高架鐵道上，沿途眺望東海水天一色絕景 (推薦尾浦站搭至青沙浦站)。",
+              mapQuery: "Haeundae Blueline Park Mipo Station"
+            },
+            {
+              time: "11:00 - 12:30",
+              title: "海東龍宮寺",
+              koreanName: "해동용궁사 (Haedong Yonggungsa)",
+              type: "spot",
+              tag: "韓國唯一海邊古剎",
+              tagColor: "bg-blue-100 text-blue-800",
+              notes: "坐落於岩石海岸峭壁上的寺院，聽著陣陣海浪聲祈福，風光無比壯麗。",
+              mapQuery: "Haedong Yonggungsa Temple, Busan"
+            },
+            {
+              time: "12:45 - 14:00",
+              title: "午餐：Sogonggan 精緻韓食 (待預約)",
+              koreanName: "소공간 (Sogonggan)",
+              type: "food",
+              tag: "待預約中",
+              tagColor: "bg-yellow-500 text-white font-bold",
+              notes: "環境溫馨雅緻的高質感韓定食套餐，選用當令新鮮食材烹煮。",
+              mapQuery: "소공간 부산 (Sogonggan Busan)"
+            },
+            {
+              time: "14:30 - 16:30",
+              title: "海雲台醫美：打音波保養 (Ultherapy / Shurink)",
+              koreanName: "반스의원 해운대점 (Vands Clinic / 本思醫院 海雲台店)",
+              type: "health",
+              tag: "美顏保養行程",
+              tagColor: "bg-purple-100 text-purple-800",
+              notes: "體驗專業韓式皮膚管理與抗老拉提音波療程，舒緩緊緻臉龐。",
+              mapQuery: "반스의원 해운대 (Vands Clinic Haeundae)"
+            },
+            {
+              time: "16:45 - 18:30",
+              title: "逛海雲台海灘 & 傳統市場",
+              koreanName: "해운대 해수욕장 & 전통시장",
+              type: "spot",
+              tag: "漫步散策",
+              tagColor: "bg-stone-100 text-stone-800",
+              notes: "享受釜山最著名的海灘微風，逛逛海雲台傳統市場品嚐盲鰻或牛肉湯飯。",
+              mapQuery: "Haeundae Traditional Market, Busan"
+            },
+            {
+              time: "18:45+",
+              title: "新世界百貨 (Centum City) 旗艦店",
+              koreanName: "신세계백화점 센텀시티점",
+              type: "shopping",
+              tag: "世界最大百貨公司",
+              tagColor: "bg-stone-100 text-stone-800",
+              notes: "金氏世界紀錄世界最大百貨！各大國際品牌、韓系彩妝服飾與地下美食街應有盡有。*若前一天時間不足未去田浦咖啡街，今晚亦可調整至田浦喝咖啡逛選物店。",
+              mapQuery: "Shinsegae Centum City, Busan"
+            }
+          ]
+        },
+        {
+          dayNumber: 5,
+          dateDisplay: "2026/11/15 (Sun)",
+          theme: "滿載回憶與秋色・早班機返台 (上午 10:10 釜山起飛 ➔ 11:50 抵達桃園)",
+          themeKo: "부산 출발 (10:10) & 타이완 타오위안 도착 (11:50)",
+          heroImage: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+          imageAlt: "Airport Flight Departure",
+          events: [
+            {
+              time: "06:45 - 07:15",
+              title: "Felix by STX 辦理退房",
+              koreanName: "호텔 체크아웃 (Felix by STX)",
+              type: "hotel",
+              tag: "退房啟程",
+              tagColor: "bg-stone-100 text-stone-800",
+              notes: "檢查隨身貴重物品、護照、充電器等，辦理退房手續後準備前往機場。",
+              mapQuery: "Felix by STX Hotel and Suite, Busan"
+            },
+            {
+              time: "07:15 - 08:00",
+              title: "專車 / 計程車前往金海國際機場",
+              koreanName: "김해국제공항 이동 (차량 이동)",
+              type: "transport",
+              tag: "機場接駁",
+              tagColor: "bg-blue-100 text-blue-800",
+              notes: "清晨從海雲台出發車程約 40-50 分鐘，建議提早於 07:40 前抵達國際線航廈。",
+              mapQuery: "Gimhae International Airport, Busan"
+            },
+            {
+              time: "08:00 - 10:10",
+              title: "辦理登機、退稅手續與託運行李",
+              koreanName: "탑승수속 & Tax Refund",
+              type: "transport",
+              tag: "機場手續",
+              tagColor: "bg-amber-100 text-amber-800",
+              notes: "預留充裕時間完成航空公司報到、託運行李、海關退稅 (Tax Refund) 及免稅品提領。",
+              mapQuery: "Gimhae International Airport, Busan"
+            },
+            {
+              time: "10:10 (韓國時間)",
+              title: "返程班機起飛 (10:10 AM Flight)",
+              koreanName: "비행기 출발 (김해 PUS)",
+              type: "transport",
+              tag: "★ 10:10 起飛",
+              tagColor: "bg-blue-600 text-white font-bold",
+              notes: "搭乘返程班機起飛，飛行時間約 2 小時 40 分鐘，帶著滿滿的楓葉照片與美好回憶平安返台！",
+              mapQuery: "Gimhae International Airport, Busan"
+            },
+            {
+              time: "11:50 (台灣時間)",
+              title: "順利返抵台灣桃園國際機場 (TPE)",
+              koreanName: "타이완 타오위안 국제공항 도착",
+              type: "transport",
+              tag: "平安返抵家門",
+              tagColor: "bg-emerald-600 text-white font-bold",
+              notes: "抵達桃園機場辦理入境、提領託運行李，圓滿結束充實難忘的釜山・慶州秋季家庭賞楓之旅！",
+              mapQuery: "Taiwan Taoyuan International Airport"
+            }
+          ]
+        }
+      ]
+    };
+
+    function initCountdown() {
+      const targetTime = new Date(TRIP_CONFIG.departureDate).getTime();
+      const daysEl = document.getElementById('cd-days');
+      const statusBadge = document.getElementById('countdown-status');
+
+      function update() {
+        const now = new Date().getTime();
+        const diff = targetTime - now;
+
+        if (diff <= 0) {
+          if (daysEl) daysEl.innerText = "0";
+          if (statusBadge) {
+            statusBadge.innerText = "Enjoying Busan! 🎉";
+            statusBadge.className = "self-start sm:self-auto bg-emerald-500 px-2.5 py-0.5 rounded text-[11px] font-bold text-white uppercase";
+          }
+          return;
+        }
+
+        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        if (daysEl) daysEl.innerText = String(days);
+      }
+
+      update();
+      setInterval(update, 60000);
+    }
+
+    function renderItinerary(filter = 'all') {
+      const container = document.getElementById('itinerary-container');
+      container.innerHTML = '';
+
+      const filteredDays = filter === 'all' 
+        ? TRIP_CONFIG.days 
+        : TRIP_CONFIG.days.filter(d => d.dayNumber === parseInt(filter));
+
+      filteredDays.forEach(day => {
+        const card = document.createElement('article');
+        card.className = "bg-white rounded-3xl overflow-hidden border border-stone-200/90 shadow-sm transition hover:shadow-md";
+
+        // Generate events list HTML
+        const eventsHtml = day.events.map((evt) => {
+          const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(evt.mapQuery)}`;
+          return `
+            <div class="relative pl-6 sm:pl-8 pb-6 last:pb-2 border-l-2 border-orange-200/80 last:border-transparent">
+              <!-- Timeline node dot -->
+              <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-amber-500 border-2 border-white shadow-sm"></div>
+              
+              <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-1 sm:gap-4">
+                <div class="flex-1">
+                  <div class="flex flex-wrap items-center gap-2 mb-1">
+                    <span class="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
+                      ${evt.time}
+                    </span>
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${evt.tagColor}">
+                      ${evt.tag}
+                    </span>
+                  </div>
+
+                  <h5 class="text-base sm:text-lg font-bold text-stone-900">
+                    ${evt.title}
+                  </h5>
+                  ${evt.koreanName ? `<p class="text-xs font-medium text-stone-400 mb-1.5">${evt.koreanName}</p>` : ''}
+                  
+                  <p class="text-xs sm:text-sm text-stone-600 leading-relaxed bg-stone-50/70 p-3 rounded-xl border border-stone-100">
+                    ${evt.notes}
+                  </p>
+                </div>
+
+                <div class="mt-2 sm:mt-0 shrink-0">
+                  <a 
+                    href="${mapUrl}" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-stone-100 hover:bg-orange-50 hover:text-orange-700 text-stone-700 border border-stone-200/60 transition"
+                    title="在 Google 地圖中開啟"
+                  >
+                    <span>📍</span>
+                    <span>Google Maps</span>
+                    <svg class="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        card.innerHTML = `
+          <!-- Header Banner for the Day -->
+          <div class="relative h-48 sm:h-56 w-full overflow-hidden bg-stone-800">
+            <img 
+              src="${day.heroImage}" 
+              alt="${day.imageAlt}" 
+              class="w-full h-full object-cover opacity-90 hover:scale-105 transition duration-700 ease-out"
+              loading="lazy"
+              onerror="this.src='https://images.unsplash.com/photo-1548115184-bc6544d06a58?auto=format&fit=crop&w=1200&q=80'"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-amber-500 text-stone-900 tracking-wider uppercase">
+                  DAY ${day.dayNumber}
+                </span>
+                <span class="text-xs text-orange-200 font-mono font-medium">${day.dateDisplay}</span>
+              </div>
+              <h4 class="text-lg sm:text-xl font-bold tracking-tight text-white drop-shadow">
+                ${day.theme}
+              </h4>
+              <p class="text-xs text-stone-300 font-light">${day.themeKo}</p>
+            </div>
+          </div>
+
+          <!-- Timeline Container -->
+          <div class="p-4 sm:p-7 space-y-2">
+            ${eventsHtml}
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function filterDay(day) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.getAttribute('data-day') == day) {
+          btn.className = "tab-btn px-3 py-1.5 rounded-lg transition bg-amber-600 text-white font-bold shadow-sm";
+        } else {
+          btn.className = "tab-btn px-3 py-1.5 rounded-lg transition text-stone-600 hover:text-stone-900 hover:bg-stone-300/50";
+        }
+      });
+      renderItinerary(day);
+    }
+
+    function initLeavesCanvas() {
+      const canvas = document.getElementById('leavesCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      // Autumn leaf particles (Orange Maple & Golden Ginkgo)
+      const leafCount = window.innerWidth < 640 ? 14 : 26;
+      const leaves = [];
+      const mapleColors = ['#EA580C', '#C2410C', '#DC2626', '#F97316'];
+      const ginkgoColors = ['#EAB308', '#FACC15', '#F59E0B', '#FBBF24'];
+
+      for (let i = 0; i < leafCount; i++) {
+        const isGinkgo = Math.random() > 0.5;
+        leaves.push({
+          type: isGinkgo ? 'ginkgo' : 'maple',
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 8 + 10,
+          speedY: Math.random() * 0.7 + 0.45,
+          speedX: (Math.random() - 0.5) * 0.7,
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 1.4,
+          color: isGinkgo 
+            ? ginkgoColors[Math.floor(Math.random() * ginkgoColors.length)]
+            : mapleColors[Math.floor(Math.random() * mapleColors.length)],
+          opacity: Math.random() * 0.35 + 0.35
+        });
+      }
+
+      function drawMapleLeaf(ctx, size) {
+        ctx.beginPath();
+        // Stylized 5-pointed maple leaf
+        ctx.moveTo(0, -size);
+        ctx.lineTo(size * 0.25, -size * 0.45);
+        ctx.lineTo(size * 0.8, -size * 0.35);
+        ctx.lineTo(size * 0.45, 0.05);
+        ctx.lineTo(size * 0.7, size * 0.6);
+        ctx.lineTo(size * 0.15, size * 0.4);
+        ctx.lineTo(0, size * 0.9); // stem
+        ctx.lineTo(-size * 0.15, size * 0.4);
+        ctx.lineTo(-size * 0.7, size * 0.6);
+        ctx.lineTo(-size * 0.45, 0.05);
+        ctx.lineTo(-size * 0.8, -size * 0.35);
+        ctx.lineTo(-size * 0.25, -size * 0.45);
+        ctx.closePath();
+      }
+
+      function drawGinkgoLeaf(ctx, size) {
+        ctx.beginPath();
+        // Fan-shaped ginkgo leaf
+        ctx.moveTo(0, size * 0.85);
+        ctx.quadraticCurveTo(size * 0.3, size * 0.45, size * 0.85, 0);
+        ctx.quadraticCurveTo(size * 0.8, -size * 0.6, size * 0.25, -size * 0.8);
+        ctx.quadraticCurveTo(0, -size * 0.55, -size * 0.25, -size * 0.8);
+        ctx.quadraticCurveTo(-size * 0.8, -size * 0.6, -size * 0.85, 0);
+        ctx.quadraticCurveTo(-size * 0.3, size * 0.45, 0, size * 0.85);
+        ctx.closePath();
+        ctx.moveTo(0, size * 0.8);
+        ctx.lineTo(size * 0.08, size * 1.2);
+      }
+
+      function drawLeaf(leaf) {
+        ctx.save();
+        ctx.translate(leaf.x, leaf.y);
+        ctx.rotate((leaf.rotation * Math.PI) / 180);
+        ctx.globalAlpha = leaf.opacity;
+        ctx.fillStyle = leaf.color;
+        ctx.strokeStyle = leaf.color;
+        ctx.lineWidth = 1.5;
+
+        if (leaf.type === 'ginkgo') {
+          drawGinkgoLeaf(ctx, leaf.size);
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          drawMapleLeaf(ctx, leaf.size);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        for (let leaf of leaves) {
+          leaf.y += leaf.speedY;
+          leaf.x += Math.sin(leaf.y * 0.01) * 0.8 + leaf.speedX;
+          leaf.rotation += leaf.rotationSpeed;
+
+          if (leaf.y > height + 25) {
+            leaf.y = -25;
+            leaf.x = Math.random() * width;
+          }
+          if (leaf.x > width + 25) leaf.x = -25;
+          if (leaf.x < -25) leaf.x = width + 25;
+
+          drawLeaf(leaf);
+        }
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initCountdown();
+      filterDay('all');
+      initLeavesCanvas();
+    });
+  </script>
+</body>
+</html>
